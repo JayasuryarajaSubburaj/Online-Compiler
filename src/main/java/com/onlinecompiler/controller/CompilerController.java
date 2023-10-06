@@ -6,26 +6,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinecompiler.entity.CodeRequestEntity;
+import com.onlinecompiler.util.CPlusPlusRunner;
+import com.onlinecompiler.util.CRunner;
+import com.onlinecompiler.util.JavaRunner;
 import com.onlinecompiler.util.PythonRunner;
 
 @RestController
 @RequestMapping("/onlinelearning/")
 public class CompilerController {
-	
+		
 	@PostMapping("/execute")
 	public String executeCode(@RequestBody CodeRequestEntity request) {
 		switch (request.getType()) {
 		case "python":
-			PythonRunner.runPythonCode();
+			PythonRunner.runPythonCode(request.getCode());
 			break;
 		case "c":
-			// call the CRunner code here
+			CRunner.runCCode(request.getCode());
 			break;
 		case "cpp":
-			// call the CppRunner code here
+			CPlusPlusRunner.runCPlusPlusCode(request.getCode());
 			break;
 		case "java":
-			// call the JavaRunner code here
+			JavaRunner.runJavaCode(request.getCode());
 			break;
 		default:
 			return "Invalid type!";
